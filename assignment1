@@ -1,4 +1,0 @@
-file = gets.chomp
-
-file = File.open(file)
-
