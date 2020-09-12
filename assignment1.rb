@@ -20,14 +20,11 @@ loop do
     if action == '1'
         print "Enter name of file you want to access."
         fileName = gets.chomp
+        #reads data from file
         file = File.open(fileName)
-       
-        lineCount = `wc -l "#{fileName}"`.strip.split(' ')[0].to_i
-
-        file_data = Array.new(3){Array.new(lineCount)}
-
+        #puts data into array
         file_data = File.read(fileName).split(",").map(&:chomp)
-        
+        #closes file
         file.close
         puts "File read into array."
     end
