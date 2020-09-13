@@ -23,10 +23,16 @@ loop do
         #reads data from file
         file = File.open(fileName)
         #puts data into array
-        file_data = File.read(fileName).split(",").map(&:chomp)
+        file_data = File.readlines(fileName)[0..-1].map do |line|
+            line.split(",").map(&:to_s)
+        end
+
         #closes file
         file.close
-        puts file_data
+
+        #puts file_data[0]
+        #puts file_data[0][0]
+        #file_data.each { |x| puts "#{x}\n" }
         puts "File read into array."
     end
 
@@ -38,28 +44,36 @@ loop do
         puts "3 - Edit Student Information"
         edit = gets.chomp
 
+        #add new student
         if edit == '1'
             puts "Enter new Student Information."
+            newStud = gets.split(",").map(&:to_s)
             #add to array
             studLocation = file_data.assoc(studMail)
             if studLocation == 'nil'
+
                 puts "Student added to file."
             else
                 puts "Student already in file."
             end
 
         end
+        #deletes student
         if edit == '2'
             puts "Enter email of Student to Delete."
             studMail = gets.chomp
+            #for x [0..x-1]
+                file_data[x].include?(studMail)
             studLocation = file_data.assoc(studMail)
             if studLocation == 'nil'
                 puts "Student not found."
             else
+
             #make sure array is fine
                 puts "Student deleted."
             end
         end
+        #edit student
         if edit == '3'
             puts "Enter email of Student you wish to edit."
             studMail = gets.chomp
@@ -126,8 +140,8 @@ loop do
     if action == '5'
         print "Enter name of file you want to write to."
         writeName = gets.chomp
-        File.open(writeName, "w+") do |f|
-            f.puts(file_data)
+        File.open(writeName, "w+") do |x|
+            x.puts(file_data)
         end
         puts "Groups written to file."
     end
