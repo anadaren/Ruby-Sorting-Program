@@ -166,7 +166,9 @@ loop do
                 puts
                 puts "Group number #{groupNumber}:"
             end
-            puts file_data[i]
+            print file_data[i][0]
+            print " "
+            puts file_data[i][2]
         end
         puts
     end
