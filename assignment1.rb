@@ -134,9 +134,8 @@ loop do
 
         puts "Select constraints. (You may enter multiple.)"
         puts "1 - Similar Majors"
-        puts "2 - Different Majors"
-        puts "3 - Similar Minors"
-        puts "4 - Groups Must be in same section"
+        puts "2 - Similar Minors"
+        puts "3 - Groups Must be in same section"
 
         # take input
         constra = gets.chomp
@@ -146,12 +145,9 @@ loop do
             sortFunction(file_data, 4)
         end
         if constra.include?("2")
-            sortFunction(file_data, 4)
-        end
-        if constra.include?("3")
             sortFunction(file_data, 6)
         end
-        if constra.include?("4")
+        if constra.include?("3")
             sortFunction(file_data, 3)
         end
 
@@ -164,13 +160,13 @@ loop do
         groupNumber = 1
         puts "Group number #{groupNumber}"
         for i in 0..file_data.length()-1 do
-            puts file_data[i]
             if i%groupSize == 0 && i != 0
                 groupNumber += 1
                 puts "--"
                 puts
                 puts "Group number #{groupNumber}:"
             end
+            puts file_data[i]
         end
         puts
     end
