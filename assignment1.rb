@@ -12,6 +12,25 @@ def whatDo
     return action
 end
 
+def sortFunction (data, indexToSort)
+    
+    dataLength = data.size
+    return if data if dataLength <= 1
+
+    swapped = false
+    while !swapped
+        swapped = false
+        (dataLength-1).times do |i|
+            (dataLength-1).times do |j|
+                if data[j][indexToSort] > data[j+1][indexToSort]
+                    data[j], data[j+1] = data[j+1], data[j]
+                    swapped = true
+                end
+            end
+        end
+    end
+end
+
 file_data = Array.new
 groupSize = 5
 
@@ -124,20 +143,16 @@ loop do
 
         #sort groups
         if constra.include?("1")
-            sameMajor = file_data.select { |x| x[4] == studMail}
-            file_data -= sameMajor
-            file_data.push(sameMajor)
+            sortFunction(file_data, 4)
         end
         if constra.include?("2")
-            file_data.sort_by { |w| w[4].size }
+            sortFunction(file_data, 4)
+        end
+        if constra.include?("3")
+            sortFunction(file_data, 6)
         end
         if constra.include?("4")
-            sameMajor = file_data.select { |x| x[6] == studMail}
-            file_data -= sameMajor
-            file_data.push(sameMajor)
-        end
-        if constra.include?("4")
-            file_data.sort_by{ |a| a.first }
+            sortFunction(file_data, 3)
         end
 
         #add constraints as necessary

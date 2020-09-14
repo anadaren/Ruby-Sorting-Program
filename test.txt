@@ -1,4 +1,10 @@
 first_name,last_name,email,section,major1,major2,minor1,minor2
-Jake,Jakerson,test@gmail.com,3,history,english,csc,imm
-Sarah,Sarahly,fake@gmail.com,2,imm, , ,
-Simp,Simpering,notreal@gmail.com,2,imm, ,english,
+Jake,Jakerson,test1@gmail.com,9,his,eng,csc,imm
+Sarah,Sarahly,test2@gmail.com,4,imm,,,
+Simp,Simpering,test3@gmail.com,5,imm,,eng,
+Bill,Billson,test4@gmail.com,1,his,eng,csc,imm
+Jack,Jackson,test5@gmail.com,3,wgs,,,
+Bob,Bobson,test6@gmail.com,8,imm,,eng,
+Nick,Nickson,test7@gmail.com,6,his,eng,csc,imm
+Mike,Mikeson,test8@gmail.com,7,com,,imm,
+Joe,Joeson,test9@gmail.com,1,com,imm,eng,
