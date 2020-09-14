@@ -51,13 +51,13 @@ loop do
             
             #add to array
             
-            #studLocation = file_data.assoc(studMail)
-            #if studLocation == 'nil'
+            toAdd = file_data.select { |x| x[2] == studMail}
+                if toAdd == []
                 file_data = file_data.push(newStud)
                 puts "Student added to file."
-            #else
-            #    puts "Student already in file."
-            #end
+            else
+                puts "Student already in file."
+            end
 
         end
 
@@ -82,8 +82,8 @@ loop do
         if edit == '3'
             puts "Enter email of Student you wish to edit."
             studMail = gets.chomp
-            toEdit = file_data.select { |x| x[2] == studMail}
-            puts toEdit
+            temp = 0
+            toEdit = file_data.index { |x| x[2] == studMail}
             if toEdit == []
                 puts "Student not found."
             else
@@ -99,7 +99,7 @@ loop do
                 puts "Enter new information."
                 newInfo = gets.chomp
 
-                
+                file_data[toEdit][makeEdit-1] = newInfo
                 
                 puts "New information taken."
                 puts file_data
@@ -111,48 +111,53 @@ loop do
     #form groups
     if action == '3'
         puts "Enter size of groups. (Default size 5.)"
-        groupSize = gets.chomp
+        groupSize = gets.to_i
 
         puts "Select constraints. (You may enter multiple.)"
         puts "1 - Similar Majors"
         puts "2 - Different Majors"
-        puts "3 - Groups Must be in same section"
+        puts "3 - Similar Minors"
+        puts "4 - Groups Must be in same section"
 
         # take input
-
-
-        
+        constra = gets.chomp
 
         #sort groups
-        if constra == '1'
-            #sort by last name
-            sorted = file_data.sort { |a, b| a <=> b }
+        if constra.include?("1")
+            sameMajor = file_data.select { |x| x[4] == studMail}
+            file_data -= sameMajor
+            file_data.push(sameMajor)
         end
-        if constra == '2'
-            #sort by contains major
+        if constra.include?("2")
+            file_data.sort_by { |w| w[4].size }
         end
-        if constra == '3'
-            #sort by different major
+        if constra.include?("4")
+            sameMajor = file_data.select { |x| x[6] == studMail}
+            file_data -= sameMajor
+            file_data.push(sameMajor)
+        end
+        if constra.include?("4")
+            file_data.sort_by{ |a| a.first }
         end
 
-        #groupArray of new groups
+        #add constraints as necessary
 
-        #print out groups
-        #print
     end
 
     #list groups
     if action == '4'
         groupNumber = 1
         puts "Group number #{groupNumber}"
-        for i in 0..file_data.length() do
-            puts file_data[i][0] + " " + file_data[i][1]
-            if i%groupSize == 0
+        for i in 0..file_data.length()-1 do
+            puts file_data[i]
+            if i%groupSize == 0 && i != 0
                 groupNumber += 1
-                puts "--\n"
-                puts "Group number #{groupNumber}"
+                puts "--"
+                puts
+                puts "Group number #{groupNumber}:"
             end
         end
+        puts
     end
 
     #write groups to file
