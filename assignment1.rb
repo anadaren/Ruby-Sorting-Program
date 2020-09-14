@@ -12,27 +12,26 @@ def whatDo
     return action
 end
 
+file_data = Array.new
+groupSize = 5
+
 #cycles through options until 'Quit' is selected
 loop do
     action = whatDo()
 
     #input data
     if action == '1'
-        print "Enter name of file you want to access."
+        print "Enter name of file you want to access. "
         fileName = gets.chomp
         #reads data from file
         file = File.open(fileName)
         #puts data into array
-        file_data = File.readlines(fileName)[0..-1].map do |line|
+        file_data = File.readlines(fileName)[1..-1].map do |line|
             line.split(",").map(&:to_s)
         end
 
         #closes file
         file.close
-
-        #puts file_data[0]
-        #puts file_data[0][0]
-        #file_data.each { |x| puts "#{x}\n" }
         puts "File read into array."
     end
 
@@ -46,39 +45,46 @@ loop do
 
         #add new student
         if edit == '1'
+            #gets info
             puts "Enter new Student Information."
             newStud = gets.split(",").map(&:to_s)
+            
             #add to array
-            studLocation = file_data.assoc(studMail)
-            if studLocation == 'nil'
-
+            
+            #studLocation = file_data.assoc(studMail)
+            #if studLocation == 'nil'
+                file_data = file_data.push(newStud)
                 puts "Student added to file."
-            else
-                puts "Student already in file."
-            end
+            #else
+            #    puts "Student already in file."
+            #end
 
         end
+
         #deletes student
         if edit == '2'
+            #gets info
             puts "Enter email of Student to Delete."
             studMail = gets.chomp
-            #for x [0..x-1]
-                file_data[x].include?(studMail)
-            studLocation = file_data.assoc(studMail)
-            if studLocation == 'nil'
-                puts "Student not found."
-            else
 
-            #make sure array is fine
-                puts "Student deleted."
-            end
+            #deletes from array
+            toDelete = file_data.select { |x| x[2] == studMail}
+                puts toDelete
+                if toDelete == []
+                    puts "Student not found"
+                else
+                    file_data -= toDelete
+                    puts "Student deleted."
+                end
         end
+
         #edit student
         if edit == '3'
             puts "Enter email of Student you wish to edit."
             studMail = gets.chomp
-            studLocation = file_data.assoc(studMail)
-            if studLocation == 'nil'
+            toEdit = file_data.select { |x| x[2] == studMail}
+            puts toEdit
+            if toEdit == []
                 puts "Student not found."
             else
                 puts "Which category do you wish to change?"
@@ -89,11 +95,14 @@ loop do
                 puts "5 - Secondary Major"
                 puts "6 - First Minor"
                 puts "7 - Second Minor"
-                makeEdit = gets.chomp
+                makeEdit = gets.to_i
                 puts "Enter new information."
                 newInfo = gets.chomp
-                file_data[studLocation][makeEdit-1] = newInfo
+
+                
+                
                 puts "New information taken."
+                puts file_data
             end
         end
 
@@ -101,20 +110,23 @@ loop do
 
     #form groups
     if action == '3'
-        puts "Enter size of groups."
+        puts "Enter size of groups. (Default size 5.)"
         groupSize = gets.chomp
 
-        puts "How do you want the groups to be sorted? (You may enter multiple.)"
-        puts "1 - Alphabetical by last name"
-        puts "2 - Similar Majors"
-        puts "3 - Different Majors"
-        puts "4 - Section"
+        puts "Select constraints. (You may enter multiple.)"
+        puts "1 - Similar Majors"
+        puts "2 - Different Majors"
+        puts "3 - Groups Must be in same section"
 
         # take input
+
+
+        
 
         #sort groups
         if constra == '1'
             #sort by last name
+            sorted = file_data.sort { |a, b| a <=> b }
         end
         if constra == '2'
             #sort by contains major
@@ -122,23 +134,30 @@ loop do
         if constra == '3'
             #sort by different major
         end
-        if constra == '4'
-            #sorts by section
-        end
+
         #groupArray of new groups
 
         #print out groups
         #print
     end
 
-    #edit groups
+    #list groups
     if action == '4'
-
+        groupNumber = 1
+        puts "Group number #{groupNumber}"
+        for i in 0..file_data.length() do
+            puts file_data[i][0] + " " + file_data[i][1]
+            if i%groupSize == 0
+                groupNumber += 1
+                puts "--\n"
+                puts "Group number #{groupNumber}"
+            end
+        end
     end
 
     #write groups to file
     if action == '5'
-        print "Enter name of file you want to write to."
+        print "Enter name of file you want to write the groups to."
         writeName = gets.chomp
         File.open(writeName, "w+") do |x|
             x.puts(file_data)
